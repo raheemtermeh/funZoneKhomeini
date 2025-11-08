@@ -1,5 +1,7 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const SearchIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg
@@ -81,6 +83,8 @@ const Header: React.FC<{
     { label: "کافه‌ها", page: "cafes" },
     { label: "آموزش", page: "tutorials" },
     { label: "درباره ما", page: "about" },
+    { label: "قهرمانان", page: "hallOfFame" },
+    { label: "کتابخونه", page: "library" },
   ];
 
   return (
@@ -96,12 +100,12 @@ const Header: React.FC<{
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div
-            onClick={() => onNavigate("home")}
+          <button
+            onClick={() => window.location.reload()}
             className="text-xl font-semibold tracking-wider text-cyan-400 cursor-pointer"
           >
             فان زون
-          </div>
+          </button>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center space-x-6 space-x-reverse">
