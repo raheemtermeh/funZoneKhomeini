@@ -35,20 +35,24 @@ const AIAssistantPage: React.FC<{ onNavigate: (page: string) => void }> = ({
     setLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+      const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_API_KEY as string });
       const prompt = `شما دستیار هوشمند پلتفرم "فان زون" هستید. به درخواست کاربر برای پیدا کردن کافه یا رویداد سرگرمی در تهران پاسخ دهید. پاسخ شما باید دوستانه، خلاقانه و شامل پیشنهادهای مشخص باشد. درخواست کاربر: "${input}"`;
 
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: prompt,
       });
-      const aiMessage: Message = { sender: "ai", text: response.text };
+
+      // بررسی اینکه response.text مقدار دارد یا نه
+      const textResponse = response.text ?? "متاسفانه نتونستم پاسخی تولید کنم 😅";
+
+      const aiMessage: Message = { sender: "ai", text: textResponse };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       console.error("AI Error:", error);
       const errorMessage: Message = {
         sender: "ai",
-        text: "متاسفانه مشکلی پیش اومد. میشه لطفا دوباره تلاش کنی؟",
+        text: "متاسفانه مشکلی پیش اومد. لطفا دوباره تلاش کن!",
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
