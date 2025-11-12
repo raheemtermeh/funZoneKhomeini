@@ -9,8 +9,8 @@ const vazirmatn = Vazirmatn({
 });
 
 export const metadata = {
-  title: "فان زون - رزرو کافه و رویداد",
-  description: "سایت مدرن رزرو کافه و رویدادهای بازی",
+  title: "فان زون - کافه و رویداد",
+  description: "سایت مدرن اطلاع‌رسانی کافه و رویدادهای بازی",
   icons: {
     icon: "/vite.svg",
   },

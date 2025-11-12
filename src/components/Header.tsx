@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+// فرض می‌کنیم این آدرس عکس شماست، در محیط واقعی باید مسیر رو درست کنید
+import logo from "../../public/images/photo_2025-11-12_19-49-54.png"
+// const logo = { src: "../../public/images/photo_2025-11-12_19-49-54.png", width: 120, height: 40 }; 
 
 const SearchIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg
@@ -84,7 +88,7 @@ const Header: React.FC<{
     { label: "آموزش", page: "tutorials" },
     { label: "درباره ما", page: "about" },
     { label: "قهرمانان", page: "hallOfFame" },
-    { label: "کتابخونه", page: "library" },
+    // { label: "کتابخونه", page: "library" },
   ];
 
   return (
@@ -98,14 +102,19 @@ const Header: React.FC<{
       animate={{ y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="flex items-center justify-between h-16">
-          <button
-            onClick={() => window.location.reload()}
-            className="text-xl font-semibold tracking-wider text-cyan-400 cursor-pointer"
-          >
-            فان زون
-          </button>
+          {/* Logo */}
+          <Link href="/" className="cursor-pointer">
+            <Image
+              src={logo}
+              alt="لوگوی فان زون"
+              width={120}
+              height={40}
+              className="h-10 w-auto"
+              priority
+            />
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center space-x-6 space-x-reverse">
@@ -116,17 +125,19 @@ const Header: React.FC<{
                 className="text-gray-300 hover:text-cyan-400 transition-colors duration-300 relative group"
               >
                 {item.label}
+                {/* Underline Hover Effect */}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
               </button>
             ))}
           </nav>
 
-          {/* Right side */}
+          {/* Right side - Icons */}
           <div className="flex items-center gap-3">
             <motion.button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="p-2 text-gray-300 hover:text-cyan-400"
               whileTap={{ scale: 0.9 }}
+              aria-label="جستجو"
             >
               <SearchIcon className="w-5 h-5" />
             </motion.button>
@@ -135,6 +146,7 @@ const Header: React.FC<{
               onClick={() => onNavigate("notifications")}
               className="p-2 text-gray-300 hover:text-cyan-400 relative"
               whileTap={{ scale: 0.9 }}
+              aria-label="اعلانات"
             >
               <BellIcon className="w-5 h-5" />
               <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-fuchsia-500 ring-2 ring-black"></span>
@@ -145,6 +157,7 @@ const Header: React.FC<{
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="w-9 h-9 rounded-full bg-gray-800 border border-cyan-500 flex items-center justify-center"
                 whileTap={{ scale: 0.9 }}
+                aria-label="پروفایل کاربر"
               >
                 <UserIcon className="w-5 h-5 text-cyan-400" />
               </motion.button>
@@ -175,15 +188,6 @@ const Header: React.FC<{
                     >
                       گذرنامه فان زون
                     </button>
-                    <button
-                      onClick={() => {
-                        onNavigate("profile", { tab: "bookings" });
-                        setIsProfileOpen(false);
-                      }}
-                      className="w-full text-right px-4 py-2 text-sm text-gray-300 hover:bg-gray-800"
-                    >
-                      رزروهای من
-                    </button>
                     <hr className="border-white/10 my-1" />
                     <a
                       href="#"
@@ -200,13 +204,14 @@ const Header: React.FC<{
             <button
               className="md:hidden text-gray-300 hover:text-cyan-400"
               onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="منوی موبایل"
             >
               ☰
             </button>
           </div>
         </div>
-
-        {/* Mobile nav */}
+        
+        {/* Mobile nav (remains full width) */}
         <AnimatePresence>
           {menuOpen && (
             <motion.nav
@@ -230,30 +235,47 @@ const Header: React.FC<{
             </motion.nav>
           )}
         </AnimatePresence>
-
-        {/* Search bar */}
-        <AnimatePresence>
-          {isSearchOpen && (
-            <motion.div
-              className="pb-3"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <form onSubmit={handleSearch}>
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="جستجوی رویداد یا کافه..."
-                  className="w-full bg-gray-900/40 border border-cyan-500/40 rounded-full px-4 py-1.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                />
-              </form>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+
+      {/* 🌟 Search Bar - Absolutely positioned and centered for a clean look 🌟 */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            className="absolute left-1/2 -translate-x-1/2 top-16 md:top-1/2 md:-translate-y-1/2 z-50 w-[95%] max-w-lg p-2"
+            initial={{ opacity: 0, scale: 0.8, y: -20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <form onSubmit={handleSearch}>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="جستجوی رویداد یا کافه..."
+                // 🟢 بهبود ظاهر input
+                className="w-full bg-gray-800 border border-cyan-500/80 rounded-full px-4 py-2 text-base text-white placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-cyan-400/50 shadow-xl"
+                autoFocus
+              />
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* 🌟 پایان Search Bar 🌟 */}
+
+      {/* 🟢 Backdrop برای بستن نوار جستجو با کلیک بیرون */}
+      <AnimatePresence>
+        {isSearchOpen && (
+            <motion.div
+                className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsSearchOpen(false)}
+            />
+        )}
+      </AnimatePresence>
+
     </motion.header>
   );
 };

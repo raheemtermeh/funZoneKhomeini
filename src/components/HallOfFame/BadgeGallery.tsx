@@ -23,7 +23,7 @@ interface Badge {
 }
 
 const mockBadges: Badge[] = [
-  { id: 1, name: "مبتدی فان‌زون", description: "اولین رزرو خود را با موفقیت ثبت کنید.", condition: "ثبت ۱ رزرو", isAchieved: true, icon: 'ShieldCheckIcon' },
+  { id: 1, name: "مبتدی فان‌زون", description: "اولین بار وارد فان زون شوید.", condition: "ورود به سیستم", isAchieved: true, icon: 'ShieldCheckIcon' },
   { id: 2, name: "پادشاه مافیا", description: "۱۰ بازی مافیا را با پیروزی به پایان برسانید.", condition: "۱۰ پیروزی در مافیا", isAchieved: false, icon: 'GemIcon' },
   { id: 3, name: "منتقد برتر", description: "۵ نقد کامل و امتیاز بالا برای کافه‌ها ثبت کنید.", condition: "۵ نقد کافه", isAchieved: true, icon: 'ZapIcon' },
   { id: 4, name: "همکار کافه", description: "برای اولین بار یک تیم برای رویدادی تشکیل دهید.", condition: "ایجاد ۱ تیم", isAchieved: false, icon: 'UsersIcon' },

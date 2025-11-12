@@ -10,29 +10,7 @@ const mockUser = {
   levelProgress: 60,
 };
 
-const mockBookings = [
-  {
-    id: 1,
-    title: "تورنومنت مافیا",
-    cafe: "کافه راشا",
-    date: "۱۴۰۳/۰۵/۱۰",
-    status: "انجام شده",
-  },
-  {
-    id: 2,
-    title: "شب بازی Catan",
-    cafe: "کافه برد",
-    date: "۱۴۰۳/۰۵/۱۱",
-    status: "انجام شده",
-  },
-  {
-    id: 3,
-    title: "مافیای کلاسیک",
-    cafe: "کافه شب‌های تهران",
-    date: "۱۴۰۳/۰۵/۲۰",
-    status: "فعال",
-  },
-];
+
 
 const mockBadges = [
   {
@@ -47,12 +25,7 @@ const mockBadges = [
     desc: "انجام ۵ بازی رومیزی مختلف",
     unlocked: true,
   },
-  {
-    icon: "🚀",
-    title: "رویداد اولی",
-    desc: "اولین رزرو موفق شما",
-    unlocked: true,
-  },
+
   {
     icon: "🤝",
     title: "یار همیشگی",
@@ -71,18 +44,7 @@ const mockBadges = [
     desc: "شرکت در ۳ نوع رویداد مختلف",
     unlocked: false,
   },
-  {
-    icon: "🌙",
-    title: "جغد شب",
-    desc: "رزرو یک رویداد بعد از ساعت ۱۲ شب",
-    unlocked: true,
-  },
-  {
-    icon: "💎",
-    title: "کاربر ویژه",
-    desc: "داشتن بیش از ۱۰ رزرو موفق",
-    unlocked: false,
-  },
+
 ];
 
 const mockFriends = [
@@ -195,35 +157,7 @@ const ProfilePage: React.FC<{
             </div>
           </div>
 
-          <div className="mt-8 border-t border-white/10 pt-8">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              تاریخچه رزروها
-            </h2>
-            <div className="space-y-3">
-              {mockBookings.map((booking) => (
-                <div
-                  key={booking.id}
-                  className="bg-gray-800/50 p-3 rounded-lg flex justify-between items-center"
-                >
-                  <div>
-                    <p className="font-bold text-white">{booking.title}</p>
-                    <p className="text-sm text-gray-400">
-                      {booking.cafe} - {booking.date}
-                    </p>
-                  </div>
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full ${
-                      booking.status === "فعال"
-                        ? "bg-green-500/20 text-green-400"
-                        : "bg-gray-600 text-gray-300"
-                    }`}
-                  >
-                    {booking.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+
         </motion.div>
       </div>
     </div>

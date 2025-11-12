@@ -84,9 +84,7 @@ const EventDetail: React.FC<{ eventId: string; onNavigate: (page: string, params
                                 <div className="w-10 h-10 rounded-full bg-gray-700 -ml-3 flex items-center justify-center text-xs text-white border-2 border-black">+{10 - event.attendees.length}</div>
                             </div>
                         </motion.div>
-                        <motion.div initial={{ opacity: 0, y:20 }} animate={{ opacity: 1, y: 0 }} transition={{delay: 0.5}}>
-                             <button className="w-full py-3 bg-fuchsia-500 text-white font-bold rounded-full text-lg hover:bg-fuchsia-400 transition-colors neon-border-magenta">رزرو و پرداخت</button>
-                        </motion.div>
+
                     </div>
 
                 </div>

@@ -265,7 +265,7 @@ const EventsPage: React.FC<{
             رویدادهای فان زون
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            بهترین رویدادهای مافیا، بردگیم و سرگرمی را پیدا و رزرو کنید.
+            بهترین رویدادهای مافیا، بردگیم و سرگرمی را پیدا کنید.
           </p>
         </motion.div>
 

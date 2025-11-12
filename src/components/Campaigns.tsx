@@ -15,8 +15,8 @@ const campaignsData = [
         "https://picsum.photos/seed/mafia/400/200",
         "https://picsum.photos/seed/mafiadetail/400/200",
       ],
-      location: "کافه‌های منتخب تهران",
-      terms: "این تخفیف فقط برای رزروهای آنلاین اعمال می‌شود.",
+      location: "کانه‌های منتخب تهران",
+      terms: "این تخفیف فقط برای شرکت حضوری معتبر است.",
     },
   },
   {
@@ -63,7 +63,7 @@ const campaignsData = [
     id: 6,
     name: "جایزه بزرگ",
     img: "https://picsum.photos/seed/prize/200",
-    desc: "با هر رزرو، یک شانس در قرعه‌کشی هفتگی ما برای بردن یک کنسول بازی دریافت کنید.",
+    desc: "با هر شرکت در رویداد، یک شانس در قرعه‌کشی هفتگی ما برای بردن یک کنسول بازی دریافت کنید.",
     category: "ویژه",
   },
   {
@@ -176,9 +176,9 @@ const CampaignModal: React.FC<{ campaign: any; onClose: () => void }> = ({
             </p>
           </div>
         )}
-        <button className="w-full mt-6 py-2 bg-fuchsia-500 text-white font-bold rounded-full hover:bg-fuchsia-400 transition-colors">
+        {/* <button className="w-full mt-6 py-2 bg-fuchsia-500 text-white font-bold rounded-full hover:bg-fuchsia-400 transition-colors">
           شرکت در کمپین
-        </button>
+        </button> */}
       </motion.div>
     </motion.div>
   );

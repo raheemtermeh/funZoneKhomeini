@@ -1,9 +1,48 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+// 🟢 1. داده‌ها با آدرس و گالری آپدیت شد
 const mockCafes: { [key: string]: any } = {
-  1: { id: 1, name: 'کافه راشا', city: 'تهران', specialty: 'تخصصی مافیا', rating: 4.8, img: 'https://picsum.photos/seed/cafe1/800/400', gallery: ['https://picsum.photos/seed/cafe1_1/200', 'https://picsum.photos/seed/cafe1_2/200', 'https://picsum.photos/seed/cafe1_3/200'], description: 'کافه راشا پاتوق حرفه‌ای‌های مافیا در تهران است. با بهترین گادها و بازیکنان، تجربه‌ای بی‌نظیر از بازی مافیا را داشته باشید.', events: [{id: 1, title: 'تورنومنت هفتگی مافیا'}, {id: 6, title: 'شب مافیا (پیشرفته)'}] },
-  2: { id: 2, name: 'کافه برد', city: 'تهران', specialty: 'مجموعه کامل بردگیم', rating: 4.9, img: 'https://picsum.photos/seed/cafe2/800/400', gallery: ['https://picsum.photos/seed/cafe2_1/200', 'https://picsum.photos/seed/cafe2_2/200', 'https://picsum.photos/seed/cafe2_3/200'], description: 'کافه برد با بیش از ۲۰۰ عنوان بازی رومیزی، بزرگترین آرشیو بردگیم در ایران را داراست.', events: [{id: 2, title: 'شب بازی Catan'}] },
+  1: { 
+    id: 1, 
+    name: 'کافه راشا', 
+    city: 'تهران', 
+    specialty: 'تخصصی مافیا', 
+    rating: 4.8, 
+    img: 'https://picsum.photos/seed/cafe1/800/400', 
+    // 🟢 گالری تصاویر کافه راشا (۶ عکس)
+    gallery: [
+        'https://picsum.photos/seed/cafe1_1/200', 
+        'https://picsum.photos/seed/cafe1_2/200', 
+        'https://picsum.photos/seed/cafe1_3/200',
+        'https://picsum.photos/seed/cafe1_4/200', // عکس جدید
+        'https://picsum.photos/seed/cafe1_5/200', // عکس جدید
+        'https://picsum.photos/seed/cafe1_6/200', // عکس جدید
+    ], 
+    description: 'کافه راشا پاتوق حرفه‌ای‌های مافیا در تهران است. با بهترین گادها و بازیکنان، تجربه‌ای بی‌نظیر از بازی مافیا را داشته باشید.', 
+    events: [{id: 1, title: 'تورنومنت هفتگی مافیا'}, {id: 6, title: 'شب مافیا (پیشرفته)'}],
+    address: 'تهران، خیابان ولیعصر، نرسیده به میدان تجریش، پلاک ۱۰'
+  },
+  2: { 
+    id: 2, 
+    name: 'کافه برد', 
+    city: 'تهران', 
+    specialty: 'مجموعه کامل بردگیم', 
+    rating: 4.9, 
+    img: 'https://picsum.photos/seed/cafe2/800/400', 
+    // 🟢 گالری تصاویر کافه برد (۶ عکس)
+    gallery: [
+        'https://picsum.photos/seed/cafe2_1/200', 
+        'https://picsum.photos/seed/cafe2_2/200', 
+        'https://picsum.photos/seed/cafe2_3/200',
+        'https://picsum.photos/seed/cafe2_4/200', // عکس جدید
+        'https://picsum.photos/seed/cafe2_5/200', // عکس جدید
+        'https://picsum.photos/seed/cafe2_6/200', // عکس جدید
+    ], 
+    description: 'کافه برد با بیش از ۲۰۰ عنوان بازی رومیزی، بزرگترین آرشیو بردگیم در ایران را داراست.', 
+    events: [{id: 2, title: 'شب بازی Catan'}],
+    address: 'تهران، خیابان انقلاب، جنب دانشگاه تهران، پلاک ۱۲۰'
+  },
 };
 
 // FIX: Changed component definition to React.FC to resolve TypeScript error with 'key' prop.
@@ -54,8 +93,9 @@ const CafeDetail: React.FC<{ cafeId: string; onNavigate: (page: string, params?:
                         
                          <motion.div className="mt-8" initial={{ opacity: 0, y:20 }} animate={{ opacity: 1, y: 0 }} transition={{delay: 0.2}}>
                             <h2 className="text-2xl font-bold text-white mb-4">گالری تصاویر</h2>
+                            {/* 🟢 نمایش تمام ۶ عکس با قابلیت اسکرول افقی */}
                             <div className="flex gap-4 overflow-x-auto custom-scrollbar pb-2">
-                                {cafe.gallery.map((img: string, i: number) => <img key={i} src={img} className="w-40 h-28 object-cover rounded-lg flex-shrink-0" />)}
+                                {cafe.gallery.map((img: string, i: number) => <img key={i} src={img} alt={`${cafe.name} - تصویر ${i+1}`} className="w-40 h-28 object-cover rounded-lg flex-shrink-0" />)}
                             </div>
                         </motion.div>
 
@@ -88,8 +128,40 @@ const CafeDetail: React.FC<{ cafeId: string; onNavigate: (page: string, params?:
                              </div>
                         </motion.div>
                     </div>
+
                     <div className="space-y-8" style={{ transformStyle: 'preserve-3d' }}>
-                        <motion.div className="bg-gray-900/50 p-6 rounded-2xl border border-white/10" initial={{ opacity: 0, y:20 }} animate={{ opacity: 1, y: 0 }} transition={{delay: 0.5}} whileHover={{ y: -5, rotateX: 5, scale: 1.03 }}>
+                        
+                        {/* کارت اطلاعات و آدرس */}
+                        <motion.div 
+                            className="bg-gray-900/50 p-6 rounded-2xl border border-white/10" 
+                            initial={{ opacity: 0, y:20 }} 
+                            animate={{ opacity: 1, y: 0 }} 
+                            transition={{delay: 0.5}} 
+                            whileHover={{ y: -5, rotateX: 5, scale: 1.03 }}
+                        >
+                            <h3 className="text-xl font-bold text-white mb-4">اطلاعات و آدرس</h3>
+                            <div className="space-y-3 text-sm">
+                                <div>
+                                    <span className="text-gray-400">شهر:</span>
+                                    <p className="text-white font-medium">{cafe.city}</p>
+                                </div>
+                                <div>
+                                    <span className="text-gray-400">آدرس دقیق:</span>
+                                    <p className="text-white font-medium leading-relaxed">{cafe.address}</p>
+                                </div>
+                            </div>
+                            <button className="w-full text-center mt-4 text-cyan-400 text-sm hover:text-cyan-300">
+                                نمایش روی نقشه
+                            </button>
+                        </motion.div>
+
+                        <motion.div 
+                            className="bg-gray-900/50 p-6 rounded-2xl border border-white/10" 
+                            initial={{ opacity: 0, y:20 }} 
+                            animate={{ opacity: 1, y: 0 }} 
+                            transition={{delay: 0.6}} 
+                            whileHover={{ y: -5, rotateX: 5, scale: 1.03 }}
+                        >
                             <h3 className="text-xl font-bold text-white mb-4">وایب کافه چطوره؟</h3>
                              <div className="grid grid-cols-2 gap-3">
                                 {vibes.map(vibe => (
@@ -100,7 +172,13 @@ const CafeDetail: React.FC<{ cafeId: string; onNavigate: (page: string, params?:
                                 ))}
                             </div>
                         </motion.div>
-                         <motion.div className="bg-gray-900/50 p-6 rounded-2xl border border-white/10" initial={{ opacity: 0, y:20 }} animate={{ opacity: 1, y: 0 }} transition={{delay: 0.6}} whileHover={{ y: -5, rotateX: 5, scale: 1.03 }}>
+                         <motion.div 
+                            className="bg-gray-900/50 p-6 rounded-2xl border border-white/10" 
+                            initial={{ opacity: 0, y:20 }} 
+                            animate={{ opacity: 1, y: 0 }} 
+                            transition={{delay: 0.7}} 
+                            whileHover={{ y: -5, rotateX: 5, scale: 1.03 }}
+                         >
                             <h3 className="text-xl font-bold text-white mb-4">منوی کافه (نمونه)</h3>
                              <ul className="text-sm text-gray-300 space-y-2">
                                 <li className="flex justify-between"><span>اسپرسو</span> <span>۶۰,۰۰۰</span></li>
@@ -109,9 +187,7 @@ const CafeDetail: React.FC<{ cafeId: string; onNavigate: (page: string, params?:
                             </ul>
                             <button className="w-full text-center mt-4 text-cyan-400 text-sm">مشاهده منوی کامل</button>
                         </motion.div>
-                         <motion.div initial={{ opacity: 0, y:20 }} animate={{ opacity: 1, y: 0 }} transition={{delay: 0.7}}>
-                             <button className="w-full py-3 bg-cyan-500 text-black font-bold rounded-full text-lg hover:bg-cyan-400 transition-colors neon-border-cyan">رزرو میز</button>
-                        </motion.div>
+
                     </div>
                 </div>
             </div>

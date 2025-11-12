@@ -238,6 +238,8 @@ const BrainZoneFull: React.FC = () => (
           {quickExercises.map((ex, idx) => <ExerciseCard key={idx} {...ex} />)}
         </div>
       </section>
+      
+      
 
       {/* تمرین‌های استراتژی پیشرفته */}
       <section className="mb-20">

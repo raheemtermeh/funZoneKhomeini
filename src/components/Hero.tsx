@@ -1,5 +1,6 @@
 import React from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
+import { MapPin } from "lucide-react";
 
 const featuredEvents = [
   {
@@ -87,12 +88,14 @@ const Hero: React.FC<{ onNavigate: (page: string, params?: any) => void }> = ({
             transition={{ duration: 0.5, delay: 0.5 }}
           >
             <form className="flex flex-col sm:flex-row items-center gap-3">
+              
               <input
                 type="text"
                 placeholder="دنبال چه رویدادی می‌گردی؟ (مثلا مافیا)"
                 className="w-full sm:w-1/2 bg-transparent text-white placeholder-gray-400 focus:outline-none px-4 py-2"
               />
-              <select className="w-full sm:w-1/4 bg-transparent text-white focus:outline-none px-4 py-2 appearance-none border-r border-l border-white/10">
+             <MapPin className="border-r border-white/10"/> <select className="w-full sm:w-1/4 bg-transparent text-white focus:outline-none py-2 appearance-none  border-l border-white/10">
+                
                 <option className="bg-black">تهران</option>
                 <option className="bg-black">کرج</option>
                 <option className="bg-black">اصفهان</option>
@@ -138,7 +141,7 @@ const Hero: React.FC<{ onNavigate: (page: string, params?: any) => void }> = ({
               onClick={() => onNavigate("eventDetail", { id: 1 })}
               className="bg-lime-500/20 text-lime-300 border border-lime-500 rounded-full px-3 py-1 hover:bg-lime-800 hover:text-white transition-colors flex items-center gap-1 animate-pulse"
             >
-              🔥 رویداد ویژه: رزرو سریع تورنومنت مافیا
+              🔥 رویداد ویژه: تورنومنت مافیا
             </button>
           </div>
           <div className="mt-4 flex justify-center items-center gap-2 text-xs text-gray-500">

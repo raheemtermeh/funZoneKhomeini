@@ -82,7 +82,7 @@ const Footer: React.FC<{ onNavigate: (page: string) => void }> = ({
               فان زون
             </h3>
             <p className="text-gray-400 mb-6 text-sm">
-              پلتفرم جامع رزرو کافه و رویدادهای سرگرمی. بهترین تجربه را برای شما
+              پلتفرم جامع اطلاع‌رسانی کافه و رویدادهای سرگرمی. بهترین تجربه را برای شما
               می‌سازیم.
             </p>
             <h4 className="text-md font-semibold mb-2 text-white">
