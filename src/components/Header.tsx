@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 // فرض می‌کنیم این آدرس عکس شماست، در محیط واقعی باید مسیر رو درست کنید
-import logo from "../../public/images/photo_2025-11-12_19-49-54.png"
-// const logo = { src: "../../public/images/photo_2025-11-12_19-49-54.png", width: 120, height: 40 }; 
+import logo from "../../public/images/photo_2025-11-12_19-49-54.png";
+// const logo = { src: "../../public/images/photo_2025-11-12_19-49-54.png", width: 120, height: 40 };
 
 const SearchIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg
@@ -105,7 +105,9 @@ const Header: React.FC<{
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="cursor-pointer">
+          <a href="/" className="cursor-pointer">
+            {" "}
+            {/* 👈 Link حذف و به a تغییر یافته */}
             <Image
               src={logo}
               alt="لوگوی فان زون"
@@ -114,8 +116,7 @@ const Header: React.FC<{
               className="h-10 w-auto"
               priority
             />
-          </Link>
-
+          </a>
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center space-x-6 space-x-reverse">
             {navItems.map((item) => (
@@ -210,7 +211,7 @@ const Header: React.FC<{
             </button>
           </div>
         </div>
-        
+
         {/* Mobile nav (remains full width) */}
         <AnimatePresence>
           {menuOpen && (
@@ -266,16 +267,15 @@ const Header: React.FC<{
       {/* 🟢 Backdrop برای بستن نوار جستجو با کلیک بیرون */}
       <AnimatePresence>
         {isSearchOpen && (
-            <motion.div
-                className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsSearchOpen(false)}
-            />
+          <motion.div
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSearchOpen(false)}
+          />
         )}
       </AnimatePresence>
-
     </motion.header>
   );
 };
