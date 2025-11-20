@@ -30,6 +30,8 @@ import CafeDetail from "../components/pages/details/CafeDetail";
 import HallOfFamePage from "./hallOfFame";
 import BrainZone from "@/components/BrainZone";
 import Library from "./Library";
+import SoundPeopleBox from "@/components/SoundPeopleBox";
+import Faq from "@/components/Faq";
 
 interface Route {
   page: string;
@@ -89,14 +91,18 @@ const App: React.FC = () => {
       default:
         return (
           <>
-            <Hero onNavigate={navigate} />
-            <Stories />
             <Campaigns onNavigate={navigate} />
+            <Hero onNavigate={navigate} />
+            {/* <Stories /> */}
+
             <AppPromo />
-            <GameTutorials onNavigate={navigate} />
+
+            {/* <GameTutorials onNavigate={navigate} /> */}
             <FunZone />
-            
+
             <Investment />
+            <Faq />
+            <SoundPeopleBox />
           </>
         );
     }
@@ -106,7 +112,6 @@ const App: React.FC = () => {
     <div className="bg-black min-h-screen overflow-x-hidden">
       <Header onNavigate={navigate} />
       <main className="pt-20">
-        {" "}
         {/* Add padding to main content to avoid overlap with fixed header */}
         {renderPage()}
       </main>

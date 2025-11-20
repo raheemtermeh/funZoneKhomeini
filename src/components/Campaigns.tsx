@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// --- داده‌های کمپین‌ها (بدون تغییر) ---
 const campaignsData = [
   {
     id: 1,
@@ -75,8 +76,7 @@ const campaignsData = [
   },
 ];
 
-const categories = ["همه", "بازی", "غذا", "تورنومنت", "ویژه"];
-
+// --- کامپوننت Countdown ---
 const Countdown: React.FC = () => {
   const calculateTimeLeft = () => {
     const difference = +new Date("2024-12-31") - +new Date();
@@ -102,7 +102,7 @@ const Countdown: React.FC = () => {
   });
 
   return (
-    <div className="text-xs text-cyan-400 font-mono mt-1">
+    <div className="text-xs font-mono mt-1 text-cyan-400 drop-shadow-[0_0_4px_#00ffff]">
       {timeLeft.days != null && timeLeft.hours != null
         ? `${timeLeft.days} روز ${timeLeft.hours} ساعت مانده`
         : "پایان یافته"}
@@ -110,13 +110,16 @@ const Countdown: React.FC = () => {
   );
 };
 
+// --- کامپوننت Modal ---
 const CampaignModal: React.FC<{ campaign: any; onClose: () => void }> = ({
   campaign,
   onClose,
 }) => {
+  const neonTextClass = "text-white drop-shadow-[0_0_8px_rgba(236,72,153,0.8)]";
+
   return (
     <motion.div
-      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
       style={{ perspective: "1000px" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -124,132 +127,141 @@ const CampaignModal: React.FC<{ campaign: any; onClose: () => void }> = ({
       onClick={onClose}
     >
       <motion.div
-        className="bg-gray-900 border border-fuchsia-500/50 rounded-2xl p-6 max-w-lg w-full relative"
+        className="bg-gray-950/95 border border-fuchsia-500/50 rounded-2xl p-6 max-w-lg w-full relative shadow-2xl shadow-fuchsia-700/30"
         initial={{ opacity: 0, scale: 0.9, rotateX: -20 }}
         animate={{ opacity: 1, scale: 1, rotateX: 0 }}
         exit={{ opacity: 0, scale: 0.9, rotateX: 20 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.4 }}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 left-4 text-gray-400 hover:text-white text-2xl z-10"
+          className="absolute top-4 left-4 text-gray-300 hover:text-fuchsia-400 text-3xl font-light transition-colors z-10"
         >
           &times;
         </button>
-        <img
-          src={campaign.img}
-          alt={campaign.name}
-          className="w-full h-48 object-cover rounded-lg mb-4"
-        />
-        <h3 className="text-2xl font-bold text-center mb-2 neon-text-magenta">
+
+        {campaign.details?.gallery?.[0] || campaign.img ? (
+          <img
+            src={campaign.details?.gallery?.[0] || campaign.img}
+            alt={campaign.name}
+            className="w-full h-48 object-cover rounded-lg mb-4 border border-cyan-500/20"
+          />
+        ) : null}
+
+        <h3
+          className={`text-3xl font-extrabold text-center mb-2 ${neonTextClass}`}
+        >
           {campaign.name}
         </h3>
-        <p className="text-gray-400 text-center mb-6">{campaign.desc}</p>
+
+        <p className="text-gray-400 text-center mb-6 text-sm">
+          {campaign.desc}
+        </p>
+
+        {campaign.details && (
+          <div className="mt-6 border-t border-fuchsia-500/20 pt-4 text-sm space-y-3">
+            <p className="flex justify-between items-center bg-gray-900 p-2 rounded-lg border-l-4 border-cyan-500">
+              <strong className="text-white">مکان:</strong>
+
+              <span className="text-gray-300 text-left">
+                {campaign.details.location}
+              </span>
+            </p>
+
+            <p className="flex justify-between items-start bg-gray-900 p-2 rounded-lg border-l-4 border-fuchsia-500">
+              <strong className="text-white">شرایط:</strong>
+
+              <span className="text-gray-300 text-left">
+                {campaign.details.terms}
+              </span>
+            </p>
+          </div>
+        )}
+
         {campaign.countdown && (
-          <div className="text-center">
+          <div className="text-center mt-6 p-2 bg-gray-900 rounded-lg border border-cyan-400/20">
+            <p className="text-sm text-gray-300 mb-1">زمان باقی‌مانده:</p>
             <Countdown />
           </div>
         )}
-        {campaign.progress && (
-          <div className="my-4">
-            <p className="text-sm text-white mb-1 text-center">
-              ظرفیت باقی‌مانده
+
+        {campaign.progress !== undefined && (
+          <div className="my-6">
+            <p className="text-sm text-white mb-2 text-center drop-shadow-[0_0_5px_rgba(255,255,255,0.4)]">
+              ظرفیت باقی‌مانده: **{100 - campaign.progress}%**
             </p>
-            <div className="w-full bg-gray-700 rounded-full h-2.5">
+
+            <div className="w-full bg-gray-700 rounded-full h-3 border border-fuchsia-500/50 overflow-hidden">
               <div
-                className="bg-fuchsia-500 h-2.5 rounded-full mx-auto"
-                style={{ width: `${campaign.progress}%` }}
+                className="bg-gradient-to-r from-fuchsia-600 to-fuchsia-400 h-full rounded-full transition-all duration-500 ease-out"
+                style={{
+                  width: `${campaign.progress}%`,
+                  boxShadow: `0 0 10px #ec4899`,
+                }}
               ></div>
             </div>
           </div>
         )}
-        {campaign.details && (
-          <div className="mt-6 border-t border-white/10 pt-4 text-sm">
-            <p>
-              <strong className="text-white">مکان:</strong>{" "}
-              <span className="text-gray-300">{campaign.details.location}</span>
-            </p>
-            <p className="mt-2">
-              <strong className="text-white">شرایط:</strong>{" "}
-              <span className="text-gray-300">{campaign.details.terms}</span>
-            </p>
-          </div>
-        )}
-        {/* <button className="w-full mt-6 py-2 bg-fuchsia-500 text-white font-bold rounded-full hover:bg-fuchsia-400 transition-colors">
-          شرکت در کمپین
-        </button> */}
       </motion.div>
     </motion.div>
   );
 };
 
+// --- کامپوننت اصلی Campaigns (کوچک و نئون) ---
 const Campaigns: React.FC<{
   onNavigate: (page: string, params?: any) => void;
 }> = ({ onNavigate }) => {
-  const [activeCategory, setActiveCategory] = useState("همه");
   const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
 
-  const filteredCampaigns =
-    activeCategory === "همه"
-      ? campaignsData
-      : campaignsData.filter((c) => c.category === activeCategory);
+  const displayedCampaigns = campaignsData;
 
   return (
-    <section className="py-20 bg-black">
+    // py-1 برای حداقل فاصله عمودی و استفاده از کلاس bg-grid برای پس‌زمینه نئون
+    <section className="py-1 bg-grid">
       <div className="container mx-auto px-4">
-        <motion.h2
-          className="text-4xl font-bold text-center mb-6 neon-text-magenta"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.5 }}
-        >
-          کمپین‌های فعال
-        </motion.h2>
-        <div className="flex justify-center mb-12">
-          <div className="flex space-x-4 space-x-reverse bg-gray-900 p-2 rounded-full border border-white/10">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-1 rounded-full text-sm transition-colors ${
-                  activeCategory === cat
-                    ? "bg-fuchsia-500 text-white"
-                    : "text-gray-400 hover:bg-gray-800"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="flex items-start space-x-8 space-x-reverse pb-4 overflow-x-auto custom-scrollbar">
-          {filteredCampaigns.map((campaign, index) => (
+        {/* نوار پیمایش افقی کمپین‌ها */}
+        <div className="flex items-start space-x-8 space-x-reverse pb-3 overflow-x-auto custom-scrollbar">
+          {displayedCampaigns.map((campaign, index) => (
             <motion.div
               key={index}
               className="flex flex-col items-center flex-shrink-0 text-center group cursor-pointer"
               style={{ perspective: "1000px" }}
               onClick={() => setSelectedCampaign(campaign)}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
             >
-              <motion.div
-                className="w-28 h-28 p-1 rounded-full bg-gradient-to-tr from-cyan-400 to-fuchsia-500 transition-transform duration-300"
-                whileHover={{ scale: 1.1 }}
-                style={{ transformStyle: "preserve-3d" }}
+              <motion.div // استایل نئون متحرک (Pulse Glow)
+                className="w-24 h-24 mt-3 p-0.5 rounded-full border-2 border-transparent ring-2 ring-cyan-400/0 transition-all duration-300 ease-out"
+                whileHover={{
+                  scale: 1.1,
+                  rotate: 3,
+                }}
+                style={{
+                  animation: "pulse-glow 3s infinite alternate",
+                }} /* ✨ اضافه شده */
               >
-                <motion.div
-                  className="bg-black w-full h-full p-1 rounded-full"
-                  transition={{ duration: 0.5 }}
-                  whileHover={{ rotateY: 180 }}
+                <div // لایه‌ی داخلی تیره و جلوه نئون فوشیا هنگام هاور
+                  className="bg-gray-900 w-full h-full p-1 rounded-full overflow-hidden relative"
                 >
+                  <div
+                    className="absolute inset-0 rounded-full border-2 border-fuchsia-500/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{
+                      boxShadow:
+                        "0 0 10px rgba(236, 72, 153, 0.8), inset 0 0 10px rgba(236, 72, 153, 0.5)",
+                    }}
+                  ></div>
+
                   <img
                     src={campaign.img}
                     alt={campaign.name}
                     className="w-full h-full rounded-full object-cover"
-                    style={{ backfaceVisibility: "hidden" }}
                   />
-                </motion.div>
+                </div>
               </motion.div>
-              <span className="mt-3 text-sm font-medium text-gray-300">
+              {/* نام و تایمر با استایل نئون */}
+              <span className="mt-3 text-sm font-medium text-white drop-shadow-[0_0_4px_#ffffff] group-hover:text-fuchsia-400 transition-colors">
                 {campaign.name}
               </span>
               {campaign.countdown && <Countdown />}
@@ -257,6 +269,7 @@ const Campaigns: React.FC<{
           ))}
         </div>
       </div>
+      {/* کامپوننت Modal */}
       <AnimatePresence>
         {selectedCampaign && (
           <CampaignModal

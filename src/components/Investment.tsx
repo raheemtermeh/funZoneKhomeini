@@ -1,7 +1,10 @@
-import React, { useState } from "react";
-import { motion, useInView } from "framer-motion";
-import { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
+// --- داده‌های ثابت (برای Modal) ---
+const CONTACT_NUMBER_FA = "+۹۸ ۹۱۲ XXX XX XX";
+
+// --- 1. کامپوننت AnimatedCounter (شمارنده متحرک) ---
 const AnimatedCounter = ({ to }: { to: number }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
@@ -9,203 +12,179 @@ const AnimatedCounter = ({ to }: { to: number }) => {
 
   useEffect(() => {
     if (inView) {
-      const controls = {
-        stop: () => {},
+      // منطق ساده شمارنده
+      let start = 0;
+      const duration = 2000;
+      const end = to;
+      let startTime: number | null = null;
+      const step = (currentTime: number) => {
+        if (!startTime) startTime = currentTime;
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        setCount(Math.floor(progress * (end - start) + start));
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
       };
-
-      const animate = (start: number, end: number, duration: number) => {
-        let startTime: number | null = null;
-        const step = (currentTime: number) => {
-          if (!startTime) startTime = currentTime;
-          const progress = Math.min((currentTime - startTime) / duration, 1);
-          setCount(Math.floor(progress * (end - start) + start));
-          if (progress < 1) {
-            requestAnimationFrame(step);
-          }
-        };
-        requestAnimationFrame(step);
-      };
-
-      animate(0, to, 2000);
-
-      return () => controls.stop();
+      requestAnimationFrame(step); // نکته: کنترل‌های stop در این پیاده‌سازی ساده‌شده حذف شدند.
     }
-  }, [inView, to]);
+  }, [inView, to]); // استفاده از toLocaleString("fa-IR") برای نمایش اعداد فارسی
 
   return <span ref={ref}>{count.toLocaleString("fa-IR")}</span>;
 };
 
-const partnershipTiers = [
-  {
-    title: "همکار کافه",
-    price: "رایگان",
-    features: ["ثبت کافه و رویداد", "دسترسی به پنل مدیریت", "پشتیبانی پایه"],
-  },
-  {
-    title: "اسپانسر رویداد",
-    price: "تماس بگیرید",
-    features: [
-      "نمایش ویژه در صفحه اصلی",
-      "کمپین‌های تبلیغاتی مشترک",
-      "گزارش‌گیری پیشرفته",
-    ],
-  },
-  {
-    title: "سرمایه‌گذار استراتژیک",
-    price: "مذاکره",
-    features: [
-      "مشارکت در سود",
-      "عضویت در هیئت مشاوران",
-      "دسترسی به داده‌های کلان",
-    ],
-  },
-];
+// --- 2. کامپوننت PartnershipModal (مدال ثبت تلفن) ---
+const PartnershipModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [status, setStatus] = useState<"form" | "submitted">("form");
 
-const faqs = [
-  {
-    q: "چگونه می‌توانم کافه خود را ثبت کنم؟",
-    a: "از طریق پنل کافه‌داران می‌توانید به سادگی و به صورت رایگان کافه و رویدادهای خود را ثبت کنید.",
-  },
-  {
-    q: "مدل درآمدی فان زون چیست؟",
-    a: "ما درصدی از هزینه هر رویداد موفق را به عنوان کمیسیون دریافت می‌کنیم. ثبت کافه رایگان است.",
-  },
-  {
-    q: "آیا امکان همکاری تبلیغاتی وجود دارد؟",
-    a: "بله، برای اطلاع از پکیج‌های اسپانسری و همکاری‌های ویژه، لطفا با ما تماس بگیرید.",
-  },
-];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (phoneNumber.length > 5) {
+      // بررسی ساده
+      setStatus("submitted");
+    }
+  };
 
-const Investment: React.FC = () => {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
   return (
-    <section className="py-24 bg-black bg-grid">
-      <div className="container mx-auto px-4">
-        <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4 neon-text-cyan">
-            ایده و سرمایه‌گذاری
-          </h2>
-          <p className="text-gray-400 mb-12 max-w-3xl mx-auto">
-            ما به دنبال گسترش دنیای سرگرمی هستیم. اگر ایده‌ای خلاقانه برای
-            رویدادها دارید یا به دنبال فرصتی برای سرمایه‌گذاری در یک پلتفرم رو
-            به رشد هستید، جای شما اینجاست. با ما تماس بگیرید و بخشی از آینده فان
-            زون باشید.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-16">
-          <div className="bg-gray-900/50 border border-white/10 p-6 rounded-lg">
-            <h3 className="text-5xl font-bold text-cyan-400">
-              <AnimatedCounter to={50000} />+
-            </h3>
-            <p className="text-gray-400 mt-2">کاربر فعال</p>
-          </div>
-          <div className="bg-gray-900/50 border border-white/10 p-6 rounded-lg">
-            <h3 className="text-5xl font-bold text-cyan-400">
-              <AnimatedCounter to={200} />+
-            </h3>
-            <p className="text-gray-400 mt-2">کافه همکار</p>
-          </div>
-          <div className="bg-gray-900/50 border border-white/10 p-6 rounded-lg">
-            <h3 className="text-5xl font-bold text-cyan-400">
-              <AnimatedCounter to={1000} />+
-            </h3>
-            <p className="text-gray-400 mt-2">رویداد موفق</p>
-          </div>
-        </div>
-
-        <h3 className="text-3xl font-bold text-center text-white mb-8">
-          فرصت‌های همکاری
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {partnershipTiers.map((tier, i) => (
-            <motion.div
-              key={tier.title}
-              className="bg-gray-900 border border-cyan-500/20 rounded-2xl p-8 flex flex-col"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              viewport={{ once: true, amount: 0.5 }}
+    <motion.div
+      className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      {" "}
+      <motion.div
+        className="bg-gray-950/90 border border-fuchsia-500/50 rounded-3xl p-8 max-w-md w-full relative shadow-2xl shadow-fuchsia-700/50"
+        initial={{ opacity: 0, scale: 0.8, rotateX: 30 }}
+        animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+        exit={{ opacity: 0, scale: 0.8, rotateX: -30 }}
+        transition={{ duration: 0.4 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {" "}
+        <button
+          onClick={onClose}
+          className="absolute top-4 left-4 text-gray-400 hover:text-cyan-400 text-3xl font-light z-10"
+        >
+          &times;{" "}
+        </button>{" "}
+        {status === "form" ? (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {" "}
+            <h3 className="text-2xl font-extrabold text-white text-center drop-shadow-[0_0_5px_#fff]">
+              ثبت درخواست همکاری VIP{" "}
+            </h3>{" "}
+            <p className="text-gray-400 text-sm text-center">
+              لطفا شماره تماس خود را وارد کنید تا تیم پشتیبانی در اولین فرصت با
+              شما ارتباط بگیرد.{" "}
+            </p>{" "}
+            <div className="text-center">
+              {" "}
+              <span className="text-xs text-cyan-400 font-mono">
+                یا با شماره مستقیم: {CONTACT_NUMBER_FA} تماس بگیرید.{" "}
+              </span>{" "}
+            </div>{" "}
+            <input
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              placeholder="شماره تلفن (مثال: ۰۹۱۲xxxxxxx)"
+              className="w-full bg-gray-800/60 border border-fuchsia-500/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-fuchsia-400 text-center"
+              required
+            />{" "}
+            <motion.button
+              type="submit"
+              className="w-full py-3 bg-cyan-500 text-black font-extrabold rounded-full shadow-[0_0_20px_#0ff] hover:shadow-[0_0_35px_#0ff] transition-all"
+              whileHover={{ scale: 1.02 }}
             >
-              <h4 className="text-2xl font-bold text-cyan-400 mb-2">
-                {tier.title}
-              </h4>
-              <p className="text-xl font-semibold text-white mb-6">
-                {tier.price}
-              </p>
-              <ul className="space-y-3 text-gray-300 flex-grow">
-                {tier.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2">
-                    ✓ {f}
-                  </li>
-                ))}
-              </ul>
-              <button className="mt-8 w-full py-2 border border-cyan-400 text-cyan-400 font-bold rounded-full transition-all duration-300 hover:bg-cyan-400 hover:text-black">
-                اطلاعات بیشتر
-              </button>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-10 items-start">
-          <div className="lg:w-1/2 w-full">
-            <h3 className="text-2xl font-bold text-white mb-6">
-              سوالات متداول
-            </h3>
-            <div className="space-y-4">
-              {faqs.map((faq, i) => (
-                <div
-                  key={i}
-                  className="bg-gray-900/50 border border-white/10 rounded-lg overflow-hidden"
-                >
-                  <button
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full text-right p-4 font-semibold text-white flex justify-between items-center"
-                  >
-                    {faq.q}
-                    <span>{openFaq === i ? "-" : "+"}</span>
-                  </button>
-                  {openFaq === i && (
-                    <div className="p-4 pt-0 text-gray-400">{faq.a}</div>
-                  )}
-                </div>
-              ))}
-            </div>
+              ثبت و ارسال{" "}
+            </motion.button>{" "}
+          </form>
+        ) : (
+          <div className="text-center space-y-6 p-4">
+            <p className="text-5xl animate-bounce">✅</p>{" "}
+            <h3 className="text-3xl font-extrabold text-fuchsia-400 drop-shadow-[0_0_8px_#f0f]">
+              درخواست شما ثبت شد!{" "}
+            </h3>{" "}
+            <p className="text-gray-300">
+              تیم پشتیبانی فان زون ظرف ۲۴ ساعت آینده جهت هماهنگی همکاری با شما
+              تماس خواهد گرفت.{" "}
+            </p>{" "}
+            <motion.button
+              onClick={onClose}
+              className="w-full py-3 bg-fuchsia-500 text-white font-extrabold rounded-full transition-all"
+              whileHover={{ scale: 1.02 }}
+            >
+              بستن{" "}
+            </motion.button>{" "}
           </div>
-          <motion.div
-            className="lg:w-1/2 w-full bg-gray-900/50 border border-cyan-500/20 rounded-2xl p-8 shadow-2xl shadow-cyan-500/10"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
+        )}{" "}
+      </motion.div>{" "}
+    </motion.div>
+  );
+};
+
+// --- 3. کامپوننت Investment (اصلی) ---
+const Investment: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <section className="py-24 bg-gray-950 relative overflow-hidden">
+      {/* المان‌های نئون پس‌زمینه */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-fuchsia-500 rounded-full mix-blend-screen filter blur-3xl opacity-30"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-cyan-500 rounded-full mix-blend-screen filter blur-3xl opacity-30 animation-delay-2000"></div>
+      </div>{" "}
+      <div className="container mx-auto px-4 relative z-10 flex justify-center">
+        {/* باکس همکاری VIP مرکزی (استایل خلاقانه سه‌بعدی) */}{" "}
+        <motion.div
+          className="w-full max-w-4xl bg-black/50 backdrop-blur-md p-10 rounded-[35px] border-4 border-cyan-500/50 text-center shadow-3xl shadow-cyan-900/70"
+          initial={{ opacity: 0, y: 50, rotateX: 10 }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 1, type: "spring" }}
+          style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
+        >
+          {" "}
+          <motion.h2
+            className="text-5xl font-extrabold text-white mb-2 drop-shadow-[0_0_15px_#0ff]"
+            whileHover={{ scale: 1.01 }}
           >
-            <h3 className="text-2xl font-bold text-white mb-4">
-              با ما در ارتباط باشید
-            </h3>
-            <form className="space-y-4">
-              <input
-                type="text"
-                placeholder="نام شما"
-                className="w-full bg-gray-800/60 border border-white/10 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              />
-              <input
-                type="email"
-                placeholder="ایمیل شما"
-                className="w-full bg-gray-800/60 border border-white/10 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              />
-              <textarea
-                placeholder="پیام شما..."
-                rows={4}
-                className="w-full bg-gray-800/60 border border-white/10 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              ></textarea>
-              <button
-                type="submit"
-                className="w-full px-8 py-3 bg-cyan-500 text-black font-bold rounded-full transition-all duration-300 hover:bg-cyan-400 neon-border-cyan hover:shadow-none"
-              >
-                ارسال پیام
-              </button>
-            </form>
-          </motion.div>
-        </div>
+            همکار <span className="text-fuchsia-400">آینده</span> فان زون شوید{" "}
+          </motion.h2>{" "}
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
+            با ما رشد کنید! ما بزرگترین بستر بازی‌های گروهی هستیم و به دنبال
+            کافه‌ها و اسپانسرهای جدید برای گسترش شبکه خود می‌گردیم.{" "}
+          </p>
+          {/* بخش آمار/اعتبار */}
+          <div className="flex justify-center gap-12 mb-10 border-t border-b border-white/10 py-4">
+            <div className="text-2xl font-mono">
+              <AnimatedCounter to={30} />{" "}
+              <span className="text-cyan-400 font-bold">+</span>
+              <p className="text-sm text-gray-400 mt-1">کافه همکار</p>
+            </div>
+            <div className="text-2xl font-mono">
+              <AnimatedCounter to={5000} />{" "}
+              <span className="text-cyan-400 font-bold">+</span>
+              <p className="text-sm text-gray-400 mt-1">بازیکن فعال</p>
+            </div>
+          </div>{" "}
+          <motion.button
+            onClick={() => setIsModalOpen(true)}
+            className="w-full sm:w-1/2 px-10 py-4 bg-[#0891b2] text-white font-extrabold text-xl rounded-full transition-all duration-300 shadow-[0_0_30px_#f0f] hover:shadow-[0_0_50px_#f0f] hover:scale-[1.05] flex items-center justify-center gap-3 mx-auto"
+            whileTap={{ scale: 0.98 }}
+          >
+            <span className="text-2xl animate-pulse"></span> درخواست همکاری{" "}
+          </motion.button>{" "}
+        </motion.div>{" "}
       </div>
+      {/* Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <PartnershipModal onClose={() => setIsModalOpen(false)} />
+        )}
+      </AnimatePresence>
     </section>
   );
 };

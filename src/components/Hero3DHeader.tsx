@@ -21,9 +21,7 @@ const Hero3DHeader: React.FC = () => {
         <div
           key={index}
           className={`absolute inset-0 bg-cover bg-center transition-all duration-[3000ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
-            activeImage === index
-              ? "opacity-100 z-10"
-              : "opacity-0 z-0"                             
+            activeImage === index ? "opacity-100 z-10" : "opacity-0 z-0"
           }`}
           style={{
             backgroundImage: `url(${image})`,
@@ -49,7 +47,7 @@ const Hero3DHeader: React.FC = () => {
       {/* --- محتوای اصلی روی بنر --- */}
       <div className="relative z-10 px-4 max-w-3xl">
         <h1 className="text-5xl md:text-6xl font-extrabold tracking-widest drop-shadow-[0_0_15px_rgba(0,255,255,0.7)]">
-          <span className="text-cyan-400">FUN ZONE</span>{" "}
+          <span className="text-cyan-400">FUN ZONE</span>
           <span className="text-yellow-400">HALL</span> OF FAME
         </h1>
 

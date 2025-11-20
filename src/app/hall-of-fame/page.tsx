@@ -53,7 +53,7 @@ export default function HallOfFamePage() {
               className={`w-20 h-20 sm:w-24 sm:h-24 ${NEON_BLUE} mx-auto mb-3 drop-shadow-[0_0_15px_rgba(0,255,255,0.9)] animate-pulse-slow`}
             />
             <h1 className="text-5xl sm:text-6xl font-extrabold text-white tracking-widest leading-tight">
-              <span className={NEON_BLUE}>FUN ZONE</span>{" "}
+              <span className={NEON_BLUE}>FUN ZONE</span>
               <span className={NEON_YELLOW}>HALL</span> OF FAME
             </h1>
             <p
@@ -66,7 +66,7 @@ export default function HallOfFamePage() {
 
           <section className="mb-20">
             <h2
-  className={`
+              className={`
     relative flex justify-center items-center text-3xl sm:text-5xl font-extrabold 
     mb-12 pb-4 border-b-4 border-yellow-400/40
     text-white tracking-wider
@@ -77,10 +77,10 @@ export default function HallOfFamePage() {
     after:w-4 after:h-4 after:bg-yellow-400 after:rounded-full after:animate-pulse
     neon-text
   `}
->
-  <TrophyIcon className="w-10 h-10 ml-4 text-yellow-400 drop-shadow-[0_0_15px_rgba(255,255,0,0.7)]" />
-  برترین بازیکنان این ماه (TOP 3)
-</h2>
+            >
+              <TrophyIcon className="w-10 h-10 ml-4 text-yellow-400 drop-shadow-[0_0_15px_rgba(255,255,0,0.7)]" />
+              برترین بازیکنان این ماه (TOP 3)
+            </h2>
 
             {/* این کامپوننت، کل چیدمان و محتوای کارت‌های Top 3 را مدیریت می‌کند. */}
             <MonthlyTopPlayers />

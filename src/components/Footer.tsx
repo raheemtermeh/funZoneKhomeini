@@ -85,22 +85,7 @@ const Footer: React.FC<{ onNavigate: (page: string) => void }> = ({
               پلتفرم جامع اطلاع‌رسانی کافه و رویدادهای سرگرمی. بهترین تجربه را برای شما
               می‌سازیم.
             </p>
-            <h4 className="text-md font-semibold mb-2 text-white">
-              عضویت در خبرنامه هفتگی
-            </h4>
-            <form className="flex items-center gap-2 mb-6 max-w-sm mx-auto md:mx-0">
-              <input
-                type="email"
-                placeholder="ایمیل شما"
-                className="w-full bg-gray-800 border border-white/10 rounded-md px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cyan-400"
-              />
-              <button
-                type="submit"
-                className="px-4 py-1.5 bg-cyan-500 text-black font-bold text-sm rounded-md whitespace-nowrap"
-              >
-                ثبت نام
-              </button>
-            </form>
+            
             <div className="flex justify-center md:justify-start space-x-6 space-x-reverse">
               <a
                 href="#"
