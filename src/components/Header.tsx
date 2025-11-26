@@ -96,7 +96,7 @@ const Header: React.FC<{
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed bg-grid top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? "backdrop-blur-xl bg-black/60 shadow-lg shadow-cyan-500/10"
           : "bg-black/30 backdrop-blur-md"

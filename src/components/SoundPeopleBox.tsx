@@ -22,7 +22,7 @@ const SoundPeopleBox = () => {
   return (
     <div>
       {/* Testimonials */}
-      <div className="mt-24 mb-24">
+      <div className="mt-24  mb-24">
         <h3 className="text-2xl font-bold text-center text-white mb-8">
           صدای مشتریان ما
         </h3>

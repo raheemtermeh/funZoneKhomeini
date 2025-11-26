@@ -19,7 +19,7 @@ const GalleryModal: React.FC<{
 }> = ({ imgSrc, index, onClose }) => {
   return (
     <motion.div
-      className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+      className="relative inset-0 bg-black/90 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -82,7 +82,7 @@ const FunZone: React.FC = () => {
   // const [voted, setVoted] = useState(false);
 
   return (
-    <section className="py-20 bg-gray-950 overflow-hidden relative">
+    <section className="py-20 bg-grid overflow-hidden relative">
       {/* المان‌های پس‌زمینه نئون */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-fuchsia-500 rounded-full mix-blend-screen filter blur-3xl opacity-30"></div>

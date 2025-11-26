@@ -19,7 +19,7 @@ const Faq = () => {
 
   return (
     <div>
-      <div className="flex flex-col px-6 lg:flex-row gap-10 items-start">
+      <div className="flex flex-col px-6 bg-grid lg:flex-row gap-10 items-start">
         <div className="lg:w-1/2 w-full">
           <h3 className="text-2xl font-bold text-white mb-6">سوالات متداول</h3>
           <div className="space-y-4">

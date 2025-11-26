@@ -32,6 +32,7 @@ import BrainZone from "@/components/BrainZone";
 import Library from "./Library";
 import SoundPeopleBox from "@/components/SoundPeopleBox";
 import Faq from "@/components/Faq";
+import DiscoverySection from "@/components/DiscoverySection";
 
 interface Route {
   page: string;
@@ -94,12 +95,10 @@ const App: React.FC = () => {
             <Campaigns onNavigate={navigate} />
             <Hero onNavigate={navigate} />
             {/* <Stories /> */}
-
             <AppPromo />
-
             {/* <GameTutorials onNavigate={navigate} /> */}
             <FunZone />
-
+            <DiscoverySection onNavigate={navigate} /> {/* 🎯 سکشن جدید */}
             <Investment />
             <Faq />
             <SoundPeopleBox />
@@ -109,7 +108,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen overflow-x-hidden">
+    <div className="bg-grid min-h-screen overflow-x-hidden">
       <Header onNavigate={navigate} />
       <main className="pt-20">
         {/* Add padding to main content to avoid overlap with fixed header */}

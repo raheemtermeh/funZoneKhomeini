@@ -130,7 +130,7 @@ const Investment: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section className="py-24 bg-gray-950 relative overflow-hidden">
+    <section className="py-24 bg-grid relative overflow-hidden">
       {/* المان‌های نئون پس‌زمینه */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-fuchsia-500 rounded-full mix-blend-screen filter blur-3xl opacity-30"></div>
